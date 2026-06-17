@@ -31,10 +31,6 @@ namespace Hostel_Management_Systems.Controllers
             }
         }
 
-        // ======================
-        // STUDENT DASHBOARD
-        // ======================
-
         public async Task<IActionResult> StudentIndex()
         {
             AddToken();
