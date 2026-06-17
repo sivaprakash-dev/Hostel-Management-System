@@ -18,10 +18,6 @@ namespace Hostel_MVC.Controllers
                 new Uri("https://localhost:7255/");
         }
 
-        // ============================
-        // TOKEN
-        // ============================
-
         private void AddToken()
         {
             var token =
@@ -38,10 +34,6 @@ namespace Hostel_MVC.Controllers
                         token);
             }
         }
-
-        // ============================
-        // COMPLAINT LIST
-        // ============================
 
         public async Task<IActionResult> CompIndex()
         {
@@ -67,20 +59,12 @@ namespace Hostel_MVC.Controllers
             return View();
         }
 
-        // ============================
-        // CREATE PAGE
-        // ============================
-
         [HttpGet]
         public IActionResult CompCreate()
         {
             return View();
         }
-
-        // ============================
-        // CREATE COMPLAINT
-        // ============================
-
+        
         [HttpPost]
         public async Task<IActionResult> CompCreate(Complaint vm)
         {
@@ -113,10 +97,6 @@ namespace Hostel_MVC.Controllers
             return View(vm);
         }
 
-        // ============================
-        // UPDATE STATUS PAGE
-        // ============================
-
         [HttpGet]
         public IActionResult StatusUpdate(
             int id)
@@ -125,10 +105,6 @@ namespace Hostel_MVC.Controllers
 
             return View();
         }
-
-        // ============================
-        // UPDATE STATUS
-        // ============================
 
         [HttpPost]
         public async Task<IActionResult> StatusUpdate(
@@ -159,11 +135,6 @@ namespace Hostel_MVC.Controllers
 
             return View(vm);
         }
-
-        // ============================
-        // DELETE
-        // ============================
-
         [HttpGet]
         public async Task<IActionResult> CompDelete(int id)
         {
