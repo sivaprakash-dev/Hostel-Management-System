@@ -18,10 +18,6 @@ namespace Hostel_Management_Systems.Controllers
                 new Uri("https://localhost:7255/");
         }
 
-        // =========================================
-        // LOGIN PAGE
-        // =========================================
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -50,10 +46,6 @@ namespace Hostel_Management_Systems.Controllers
 
             return View();
         }
-
-        // =========================================
-        // LOGIN
-        // =========================================
 
         [HttpPost]
         public async Task<IActionResult> Login(AdminLogin vm)
@@ -108,7 +100,7 @@ namespace Hostel_Management_Systems.Controllers
 
                 HttpContext.Session.SetString(
                     "Email",
-                    vm.Email!);   // ADD HERE
+                    vm.Email!);   
 
                 if (vm.Role == "Admin")
                 {
@@ -128,10 +120,6 @@ namespace Hostel_Management_Systems.Controllers
             return View(vm);
         }
 
-        // =========================================
-        // STUDENT LOGIN
-        // =========================================
-
         [HttpPost]
         public async Task<IActionResult> StudentLogin(Student vm)
         {
@@ -141,13 +129,11 @@ namespace Hostel_Management_Systems.Controllers
 
             if (vm.Role == "Admin")
             {
-                // Admin Dashboard
                 return RedirectToAction("Index", "AdminDashboard");
             }
 
             if (vm.Role == "Student")
             {
-                // Student Dashboard
                 return RedirectToAction("Index", "StudentDashboard");
             }
 
@@ -193,10 +179,6 @@ namespace Hostel_Management_Systems.Controllers
 
             return View(vm);
         }
-
-        // =========================================
-        // LOGOUT
-        // =========================================
 
         [HttpGet]
         public IActionResult Logout()
