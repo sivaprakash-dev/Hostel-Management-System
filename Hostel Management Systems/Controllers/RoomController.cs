@@ -21,10 +21,6 @@ namespace Hostel_MVC.Controllers
                 new Uri("https://localhost:7255/");
         }
 
-        // =========================================
-        // TOKEN
-        // =========================================
-
         private void AddToken()
         {
             var token =
@@ -40,10 +36,6 @@ namespace Hostel_MVC.Controllers
                          .Replace("{token:", "")
                          .Replace("}", ""));
         }
-
-        // =========================================
-        // ROOM LIST
-        // =========================================
 
         public async Task<IActionResult> RoomIndex()
         {
@@ -69,19 +61,11 @@ namespace Hostel_MVC.Controllers
             return View();
         }
 
-        // =========================================
-        // CREATE PAGE
-        // =========================================
-
         [HttpGet]
         public IActionResult RoomCreate()
         {
             return View();
         }
-
-        // =========================================
-        // CREATE ROOM
-        // =========================================
 
         [HttpPost]
         public async Task<IActionResult> RoomCreate(Room vm)
