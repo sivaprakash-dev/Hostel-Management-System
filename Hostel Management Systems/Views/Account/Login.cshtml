@@ -5,7 +5,6 @@
 
 <div class="main-container">
 
-    <!-- LEFT PANEL -->
     <div class="left-panel">
 
         <div class="logo-box">
@@ -41,7 +40,6 @@
 
     </div>
 
-    <!-- RIGHT PANEL -->
     <div class="login-container">
 
         <h2>Welcome Back  </h2>
@@ -50,7 +48,6 @@
               asp-controller="Account"
               method="post">
 
-            <!-- Role Selection -->
 
             <div class="role-selector">
 
@@ -84,7 +81,6 @@
                        required />
             </div>
 
-            <!-- Password -->
 
             <div class="input-box">
                 <i class="fa-solid fa-lock"></i>
@@ -176,8 +172,6 @@
         box-shadow: 0 20px 50px rgba(0,0,0,.25);
     }
 
-    /* LEFT SIDE */
-
     .left-panel {
         flex: 1;
         background: linear-gradient(135deg,#4f46e5,#7c3aed);
@@ -219,7 +213,6 @@
         margin-bottom: 5px;
     }
 
-    /* RIGHT SIDE */
 
     .login-container {
         flex: 1;
@@ -235,7 +228,6 @@
             margin-bottom: 30px;
         }
 
-    /* ROLE BUTTONS */
 
     .role-selector {
         display: flex;
@@ -260,7 +252,6 @@
             border-color: #7c3aed;
         }
 
-    /* INPUT */
 
     .input-box {
         display: flex;
@@ -283,7 +274,6 @@
             background: transparent;
         }
 
-    /* BUTTON */
 
     .btn-login {
         width: 100%;
@@ -300,8 +290,6 @@
         .btn-login:hover {
             transform: translateY(-2px);
         }
-
-    /* REGISTER */
 
     .register-link {
         text-align: center;
@@ -365,12 +353,6 @@
             .register-link a:hover {
                 text-decoration: underline;
             }
-
-    /* ===================================
-       RESPONSIVE DESIGN
-    =================================== */
-
-    /* Large Screens */
     @@media (min-width:1400px) {
 
         .main-container {
@@ -387,7 +369,6 @@
         }
     }
 
-    /* Laptop */
     @@media (max-width:1200px) {
 
         .main-container {
@@ -423,7 +404,6 @@
         }
     }
 
-    /* Mobile */
     @@media (max-width:768px) {
 
         body {
