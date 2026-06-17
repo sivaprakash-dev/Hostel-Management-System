@@ -18,11 +18,6 @@ namespace Hostel_Management_System.Controllers
             _context = context;
         }
 
-        // =========================================
-        // GET ALL COMPLAINTS
-        // ADMIN ONLY
-        // =========================================
-
         [Authorize(Roles = "Admin")]
 
         [HttpGet]
@@ -33,11 +28,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok(data);
         }
-
-        // =========================================
-        // ADD COMPLAINT
-        // STUDENT ONLY
-        // =========================================
 
         [Authorize(Roles = "Admin,Student")]
 
@@ -55,11 +45,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok("Complaint Added Successfully");
         }
-
-        // =========================================
-        // UPDATE STATUS
-        // ADMIN ONLY
-        // =========================================
 
         [Authorize(Roles = "Admin")]
 
@@ -83,11 +68,6 @@ namespace Hostel_Management_System.Controllers
             return Ok("Complaint Status Updated");
         }
 
-        // =========================================
-        // DELETE COMPLAINT
-        // ADMIN ONLY
-        // =========================================
-
         [Authorize(Roles = "Admin")]
 
         [HttpDelete("{id}")]
@@ -108,10 +88,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok("Complaint Deleted Successfully");
         }
-
-
-
-        //--------------- Student Role
 
 
         [Authorize(Roles = "Student")]
