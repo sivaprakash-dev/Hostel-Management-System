@@ -19,11 +19,6 @@ namespace Hostel_Management_System.Controllers
             _context = context;
         }
 
-        // =========================================
-        // GET ALL FEES
-        // ADMIN ONLY
-        // =========================================
-
         [Authorize(Roles = "Admin")]
 
         [HttpGet]
@@ -33,12 +28,7 @@ namespace Hostel_Management_System.Controllers
 
             return Ok(data);
         }
-
-        // =========================================
-        // GET FEE BY STUDENT ID
-        // ADMIN + STUDENT
-        // =========================================
-
+        
         [Authorize(Roles = "Admin,Student")]
 
         [HttpGet("{studentId}")]
@@ -51,11 +41,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok(data);
         }
-
-        // =========================================
-        // ADD FEE
-        // ADMIN ONLY
-        // =========================================
 
         [Authorize(Roles = "Admin")]
 
@@ -72,11 +57,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok("Fee Added Successfully");
         }
-
-        // =========================================
-        // PAY FEE
-        // STUDENT ONLY
-        // =========================================
 
         [Authorize(Roles = "Student")]
 
@@ -99,10 +79,6 @@ namespace Hostel_Management_System.Controllers
             return Ok("Fee Paid Successfully");
         }
 
-        // =========================================
-        // DELETE FEE
-        // ADMIN ONLY
-        // =========================================
 
         [Authorize(Roles = "Admin")]
 
@@ -122,11 +98,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok("Fee Deleted Successfully");
         }
-
-
-        //---------Student Role
-
-
 
 
         [Authorize(Roles = "Student")]
