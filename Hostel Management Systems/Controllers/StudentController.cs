@@ -21,9 +21,6 @@ namespace Hostel_MVC.Controllers
                 new Uri("https://localhost:7255/");
         }
 
-        // =========================================
-        // GET TOKEN
-        // =========================================
 
         private void AddToken()
         {
@@ -41,13 +38,7 @@ namespace Hostel_MVC.Controllers
                          .Replace("}", ""));
         }
 
-        // =========================================
-        // STUDENT LIST
-        // =========================================
-
-        public async Task<IActionResult> Indexs(
-     string search,
-     int page = 1)
+        public async Task<IActionResult> Indexs(string search,int page = 1)
         {
             AddToken();
 
@@ -65,7 +56,6 @@ namespace Hostel_MVC.Controllers
             var students =
                 JsonConvert.DeserializeObject<List<Student>>(json);
 
-            // Global Search
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -117,19 +107,11 @@ namespace Hostel_MVC.Controllers
             return View(students);
         }
 
-        // =========================================
-        // CREATE PAGE
-        // =========================================
-
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
-        // =========================================
-        // CREATE
-        // =========================================
 
         [HttpPost]
         public async Task<IActionResult> Create(
