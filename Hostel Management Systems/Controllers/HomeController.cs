@@ -17,19 +17,12 @@ namespace Hostel_Management_Systems.Controllers
                 new Uri("https://localhost:7255/api/");
         }
 
-        // ============================
-        // REGISTER GET
-        // ============================
-
+   
         [HttpGet]
         public IActionResult AdminRegister()
         {
             return View();
         }
-
-        // ============================
-        // REGISTER POST
-        // ============================
 
         [HttpPost]
         public async Task<IActionResult> AdminRegister(AdminReg dto)
@@ -48,7 +41,6 @@ namespace Hostel_Management_Systems.Controllers
                     "Auth/admin-register",
                     content);
 
-            // ERROR MESSAGE READ
             var result =
                 await response.Content.ReadAsStringAsync();
 
@@ -64,19 +56,13 @@ namespace Hostel_Management_Systems.Controllers
             return View(dto);
         }
 
-        // ============================
-        // STUDENT REGISTER GET
-        // ============================
-
+   
         [HttpGet]
         public IActionResult StudentRegister()
         {
             return View();
         }
 
-        // ============================
-        // STUDENT REGISTER POST
-        // ============================
 
         [HttpPost]
         public async Task<IActionResult> StudentRegister(Student dto)
