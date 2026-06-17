@@ -1,0 +1,737 @@
+﻿@model List<Complaint>
+
+
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+    /* ===================================================
+       1. பொதுவான அமைப்புகள் (GLOBAL CONFIGURATION)
+       =================================================== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: #f8fafc;
+        color: #1e293b;
+        overflow-x: hidden;
+    }
+
+    .main-container {
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    /* ===================================================
+       2. சைட்பார் வடிவமைப்பு (SIDEBAR - Deep Dark Purple)
+       =================================================== */
+    .sidebar {
+        width: 260px;
+        background-color: #0f0a1c; /* புகைப்படத்தில் உள்ள அதே பிரீமியம் டார்க் நிறம் */
+        color: #a5a2ba;
+        display: flex;
+        flex-direction: column;
+        padding: 24px 16px;
+        flex-shrink: 0;
+    }
+
+    .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar .logo {
+        background: linear-gradient(135deg, #b034cc, #6a11cb);
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 18px;
+    }
+
+    .logo-text h3 {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .logo-text p {
+        font-size: 11px;
+        color: #5c5776;
+    }
+
+    .menu-title {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        color: #433e58;
+        margin: 10px 0 12px 12px;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+        .sidebar ul li a {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 16px;
+            color: #8a85a5;
+            text-decoration: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        /* ஆக்டிவ் மெனுவிற்கு அழகான பர்பிள் லீனியர் கிரேடியன்ட் */
+        .sidebar ul li.active-menu a {
+            background: linear-gradient(90deg, #b83cd1, #8418a8) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 20px rgba(184, 60, 209, 0.4);
+            font-weight: 600;
+        }
+
+            /* ஆக்டிவ் மெனுவின் வலதுபுற சிறிய ஒளிரும் புள்ளி */
+            .sidebar ul li.active-menu a::after {
+                content: '';
+                position: absolute;
+                right: 18px;
+                width: 6px;
+                height: 6px;
+                background-color: #fff;
+                border-radius: 50%;
+            }
+
+        .sidebar ul li a:hover:not(.active-menu a) {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+    /* ===================================================
+       3. மின்னஞ்சல் பாக்ஸ் & சிவப்பு நிற லாக்அவுட் (BOTTOM FOOTER)
+       =================================================== */
+    .sidebar-footer {
+        margin-top: auto; /* சைட்பாரின் மிகக் கீழே தள்ளுவதற்கு */
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding-top: 20px;
+    }
+
+    /* பயனர் மின்னஞ்சல் கொண்டுள்ள பாக்ஸ் அமைப்பு */
+    .user-profile-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        background-color: #17112a;
+        border-radius: 16px;
+    }
+
+    .profile-avatar {
+        background: linear-gradient(135deg, #bf55ec, #8e44ad);
+        color: #fff;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .profile-info h4 {
+        color: #fff;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .profile-info p {
+        font-size: 11px;
+        color: #6a6485;
+    }
+
+    /* புகைப்படத்தில் உள்ளவாறு துல்லியமான சிவப்பு நிற லாக்அவுட் ஸ்டைல் */
+    .logout-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        color: #ff4d4d !important; /* பிரகாசமான சிவப்பு நிறம் */
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+        .logout-link:hover {
+            opacity: 0.8;
+            padding-left: 15px; /* லேசான ஹோவர் எஃபெக்ட் */
+        }
+
+    /* ===================================================
+       4. டாப் பார் வடிவமைப்பு (TOPBAR)
+       =================================================== */
+    .content {
+        flex-grow: 1;
+        padding: 24px 32px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        padding: 16px 24px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
+        margin-bottom: 24px;
+    }
+
+    .topbar-left h2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .notification-icon {
+        font-size: 18px;
+        color: #64748b;
+        cursor: pointer;
+    }
+
+    .top-useremail {
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    .avatar-sm {
+        background: #a855f7;
+        color: #fff;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    /* ===================================================
+       5. கன்டென்ட் டைட்டில் மற்றும் டேபிள் வடிவமைப்பு
+       =================================================== */
+    .top-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .page-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .add-btn {
+        background-color: #7c3aed;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        transition: background 0.2s;
+    }
+
+        .add-btn:hover {
+            background-color: #6d28d9;
+        }
+
+    /* டேபிள் கன்டெயினர்கள் */
+    .table-container {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f8fafc;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 16px;
+        border-bottom: 1px solid #edf2f7;
+    }
+
+    td {
+        padding: 16px;
+        font-size: 13.5px;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    tr:hover td {
+        background-color: #f8fafc;
+    }
+
+    /* ஆக்சன் பட்டன்களின் ஸ்டைல் */
+    .details-btn, .edit-btn, .delete-btn {
+        padding: 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .details-btn {
+        background-color: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    .edit-btn {
+        background-color: #fef3c7;
+        color: #d97706;
+    }
+
+    .delete-btn {
+        background-color: #fee2e2;
+        color: #dc2626;
+    }
+
+    .details-btn:hover {
+        background-color: #dbeafe;
+    }
+
+    .edit-btn:hover {
+        background-color: #fde68a;
+    }
+
+    .delete-btn:hover {
+        background-color: #fecaca;
+    }
+
+
+
+    /* ===================================================
+       ரெஸ்பான்சிவ் வடிவமைப்பு (RESPONSIVE SCREEN DESIGN)
+       =================================================== */
+
+    /* நடுத்தர திரைகளுக்கு (Tablets / Laptops) */
+    @@media (max-width: 1280px) {
+        .dashboard-grid {
+            grid-template-columns: repeat(2, 1fr); /* ஒரு வரிசைக்கு 2 கார்டுகளாக மாறும் */
+            gap: 18px;
+        }
+    }
+
+    /* சிறிய மொபைல் திரைகளுக்கு (Mobile Phones) */
+    @@media (max-width: 650px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr; /* ஒரே ஒரு கார்டு மட்டுமே முழு வரிசையையும் ஆக்கிரமிக்கும் */
+            gap: 16px;
+        }
+
+        .card-inner h2 {
+            font-size: 28px;
+        }
+    }
+
+    /* Google Font - தூய்மையான மற்றும் நேர்த்தியான லுக் தர */
+    @@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+    .profile-section {
+        display: flex;
+        align-items: center;
+        gap: 16px; /* ஐகானுக்கும் உரைக்கும் இடையே உள்ள இடைவெளி */
+        padding: 16px;
+        background: rgba(255, 255, 255, 0.03); /* லேசான பின்னணி வண்ணம் */
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.06); /* Glassmorphic பார்டர் */
+        margin-bottom: 24px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* மவுஸ் மேலே செல்லும்போது லேசான பளபளப்பு அனிமேஷன் */
+    .profile-section:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(139, 92, 246, 0.3); /* Purple Glow */
+        transform: translateY(-2px);
+    }
+
+    /* 1. Profile User Icon */
+    .profile-icon {
+        font-size: 45px;
+        background: linear-gradient(135deg, #a855f7, #6366f1); /* இமேஜில் உள்ள நியான்றிக் பர்பிள் கிரேடியன்ட் */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.3));
+        transition: transform 0.3s ease;
+    }
+
+    .profile-section:hover .profile-icon {
+        transform: scale(1.08) rotate(5deg);
+    }
+
+    /* 2. Email & Role Container */
+    .profile-section .email {
+        display: flex;
+        flex-direction: column;
+        gap: 4px; /* வரிகளுக்கு இடையே உள்ள இடைவெளி */
+        overflow: hidden;
+    }
+
+        /* 3. Email Text Style */
+        .profile-section .email h3:nth-child(1) {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff; /* தூய வெள்ளை நிறம் */
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* நீண்ட மெயில் ஐடியாக இருந்தால் '...' என சுருங்கும் */
+        }
+
+        /* 4. Role (ADMIN / STUDENT) Badge Style */
+        .profile-section .email h3:nth-child(2) {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase; /* எழுத்துக்களை Capitalize செய்ய */
+            letter-spacing: 1px;
+            /* Neon Badge Effect (இமேஜில் உள்ளது போன்ற வடிவமைப்பு) */
+            background: linear-gradient(90deg, #8b5cf6, #d946ef);
+            color: #ffffff;
+            padding: 3px 10px;
+            border-radius: 20px;
+            width: max-content; /* உரைக்கு ஏற்றவாறு மட்டும் பேட்ஜ் சுருங்கும் */
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4);
+        }
+
+
+
+
+    /* Container */
+    .table-container {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        margin-top: 20px;
+        overflow-x: auto;
+    }
+
+        /* Heading */
+        .table-container h2 {
+            color: #1e293b;
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+    /* Table */
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 15px;
+    }
+
+        /* Header */
+        .custom-table thead {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+        }
+
+        .custom-table th {
+            padding: 16px;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Body */
+        .custom-table td {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #334155;
+            font-size: 14px;
+        }
+
+        /* Row Hover */
+        .custom-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+            .custom-table tbody tr:hover {
+                background: #f8fafc;
+                transform: scale(1.01);
+            }
+
+    /* Text Styling */
+    .fw-semibold {
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .text-muted {
+        color: #64748b;
+    }
+
+    .date-col {
+        white-space: nowrap;
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    /* Status Badge */
+    .status-badge {
+        padding: 8px 14px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 600;
+        display: inline-block;
+        text-align: center;
+        min-width: 100px;
+    }
+
+        /* Pending */
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        /* Approved */
+        .status-badge.approved {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        /* Resolved */
+        .status-badge.resolved {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        /* Rejected */
+        .status-badge.rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* In Progress */
+        .status-badge.inprogress,
+        .status-badge.in-progress {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .table-container {
+            padding: 15px;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 12px;
+            font-size: 13px;
+        }
+
+        .table-container h2 {
+            font-size: 22px;
+        }
+    }
+</style>
+
+
+<div class="main-container">
+
+    <div class="sidebar">
+
+        <div class="profile-section">
+
+            <i class="fa-solid fa-circle-user profile-icon"></i>
+
+            <div class="email">
+                <h3>@Context.Session.GetString("Email")</h3>
+                <h3>@Context.Session.GetString("Role")</h3>
+            </div>
+        </div>
+
+        <p class="menu-title">MENU</p>
+        <ul>
+            <li>
+                <a asp-controller="Dashboard" asp-action="Index">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="menu-text">Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a asp-controller="StudentDashboard" asp-action="MyRoom">
+                    <i class="fa fa-bed"></i>
+                    <span class="menu-text">My Room</span>
+                </a>
+            </li>
+
+            <li>
+                <a asp-controller="StudentDashboard" asp-action="MyFees">
+                    <i class="fa fa-wallet"></i>
+                    <span class="menu-text">My Fees</span>
+                </a>
+            </li>
+
+            <li class="active-menu">
+                <a asp-controller="StudentDashboard" asp-action="MyComplaints">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span class="menu-text">Complaints</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-profile-box">
+                <div class="profile-avatar">
+                    @{
+                        var email = Context.Session.GetString("Email");
+
+                        var initials = "AJ";
+
+                        if (!string.IsNullOrEmpty(email))
+                        {
+                            initials = email.Substring(0, 2).ToUpper();
+                        }
+                    }
+
+                    @initials
+                </div>
+
+                <div class="profile-info">
+                    <h4>Student</h4>
+                    <p>@Context.Session.GetString("Email")</p>
+                </div>
+            </div>
+
+            <a asp-controller="Account" asp-action="Logout" class="logout-link">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="menu-text">Logout</span>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="content">
+
+        <div class="topbar">
+            <div class="topbar-left">
+                <h2>Student Management</h2>
+            </div>
+            <div class="topbar-right">
+                <div class="notification-icon">
+                    <i class="fa-regular fa-bell"></i>
+                </div>
+                <span class="top-useremail">
+                    @Context.Session.GetString("Email")
+                </span>
+                <div class="profile-avatar">
+                    @{
+                        var Email = Context.Session.GetString("Email");
+
+                        var Initials = "AJ";
+
+                        if (!string.IsNullOrEmpty(email))
+                        {
+                            initials = email.Substring(0, 2).ToUpper();
+                        }
+                    }
+
+                    @initials
+                </div>
+            </div>
+        </div>
+
+        <a asp-controller="StudentDashboard"
+           asp-action="AddComplaint"
+           class="btn btn-danger">
+            Add Complaint
+        </a>
+
+        <div class="table-container">
+            <h2>My Complaints</h2>
+
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.Subject</td>
+                            <td class="text-muted">@item.Description</td>
+                            <td>
+                                <span class="status-badge @item.Status.ToLower()">
+                                    @item.Status
+                                </span>
+                            </td>
+                            <td class="date-col">@item.CreatedDate.ToString("dd MMM yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        </div>
+
+    </div>
+</div>

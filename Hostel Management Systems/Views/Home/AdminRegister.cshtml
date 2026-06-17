@@ -1,0 +1,288 @@
+﻿@model AdminReg
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="~/css/style.css" />
+
+<div class="register-container">
+
+    <h1>Registration</h1>
+
+    <form asp-action="AdminRegister" method="post">
+
+        <!-- NAME -->
+
+        <div class="input-box">
+            <i class="fa-solid fa-user"></i>
+
+            <input asp-for="Name"
+                   placeholder="Enter your name" />
+        </div>
+
+        <!-- EMAIL -->
+
+        <div class="input-box">
+            <i class="fa-solid fa-envelope"></i>
+
+            <input asp-for="Email"
+                   placeholder="Enter your email" />
+        </div>
+
+        <!-- GENDER -->
+
+        <div class="input-box">
+            <i class="fa-solid fa-venus-mars"></i>
+
+            <input asp-for="Gender"
+                   placeholder="Enter gender" />
+        </div>
+
+        <!-- AGE -->
+
+        <div class="input-box">
+            <i class="fa-solid fa-calendar"></i>
+
+            <input asp-for="Age"
+                   placeholder="Enter age" />
+        </div>
+
+        <!-- ADDRESS -->
+
+        <div class="input-box">
+            <i class="fa-solid fa-location-dot"></i>
+
+            <input asp-for="Address"
+                   placeholder="Enter address" />
+        </div>
+
+        <!-- PASSWORD -->
+
+        <div class="input-box">
+            <i class="fa-solid fa-lock"></i>
+
+            <input asp-for="Password"
+                   type="password"
+                   placeholder="Create password" />
+        </div>
+
+        <!-- MOBILE -->
+
+        <div class="input-box">
+            <i class="fa-solid fa-phone"></i>
+
+            <input asp-for="Mobile"
+                   placeholder="Enter mobile number" />
+        </div>
+
+        <!-- DATE -->
+
+        <div class="input-box">
+            <i class="fa-solid fa-calendar-days"></i>
+
+            <input asp-for="JoiningDate"
+                   type="datetime-local" />
+        </div>
+
+        <!-- PHOTO -->
+
+        <div class="input-box">
+            <i class="fa-solid fa-image"></i>
+
+            <input asp-for="Photo"
+                   placeholder="Photo URL" type="file"/>
+        </div>
+
+        <!-- BUTTON -->
+
+        <button type="submit" class="btn-submit">
+            Register Now
+        </button>
+
+    </form>
+
+    <!-- MESSAGE -->
+    @if (TempData["msg"] != null)
+    {
+        <div class="msg">
+            @TempData["msg"]
+        </div>
+    }
+
+    <!-- LOGIN LINK -->
+
+    <div class="login-link">
+        Already have an account?
+        <a asp-controller="Account" asp-action="Login">Login now</a>
+    </div>
+
+</div>
+
+
+<style>
+
+    /* --- Global Body Setup (Exact Screen Center) --- */
+body {
+    background-color: #f6f8fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 60px 20px; /* Extra breathing space for long form */
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- Main Card Container (150% Scaled Wide Layout) --- */
+.register-container {
+    background: #ffffff;
+    width: 155%;                 /* Extended screen width to look big & premium */
+    min-width: 360px;           /* Mobile safe limit */
+    max-width: 850px;           /* Perfect scaled desktop width */
+    padding: 55px 60px;         /* Spacious internal padding */
+    border-radius: 32px;        /* Smooth premium rounded corners like image */
+    box-shadow: 0 25px 60px rgba(147, 51, 234, 0.06), 0 5px 25px rgba(0, 0, 0, 0.015);
+    box-sizing: border-box;
+}
+
+/* --- Heading Style --- */
+.register-container h1 {
+    font-size: 36px;            /* Scaled up title */
+    font-weight: 700;
+    color: #081226;             /* Image soft dark-blue text tone */
+    margin-top: 0;
+    margin-bottom: 40px;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+/* --- Form Flow Controls (One by One Column Layout) --- */
+form {
+    display: flex;
+    flex-direction: column;    /* Form inputs-ah strictly vertical-ah line pannum */
+    gap: 22px;                 /* Clean vertical spacing between fields */
+    width: 200%;
+}
+
+/* --- Input Box Base --- */
+.input-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;               /* Takes full 100% of the expanded container */
+}
+
+/* --- Inside Icons Style --- */
+.input-box i {
+    position: absolute;
+    left: 24px;
+    color: #8da2b5;             /* Image light slate grey icon color */
+    font-size: 18px;
+    pointer-events: none;
+    transition: color 0.3s ease;
+}
+
+/* --- Input Fields (Tinted Soft Background like Image) --- */
+.input-box input {
+    width: 50%;
+    padding: 18px 24px 18px 62px; /* Premium spacious padding */
+    border: 1px solid #e5eaf2;
+    border-radius: 18px;        /* Extra smooth rounded inputs matching image */
+    font-size: 16px;            /* Slightly larger font for scaled layout */
+    color: #334155;
+    outline: none;
+    background-color: #f8fafc;  /* Soft cool-tinted background from image */
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Focus States (Interactive Purple Glow) --- */
+.input-box input:focus {
+    background-color: #ffffff;
+    border-color: #a855f7;      /* Clean focus purple border */
+    box-shadow: 0 0 0 5px rgba(168, 85, 247, 0.12);
+}
+
+.input-box input:focus + i {
+    color: #a855f7;             /* Icon glows purple on focus */
+}
+
+/* Date Input Adjustment */
+.input-box input[type="datetime-local"] {
+    color: #64748b;
+}
+
+/* --- Rich Vibrant Purple Gradient Button --- */
+.btn-submit {
+    background: linear-gradient(135deg, #b32cd4, #7e16b3); /* Exact purple gradient look */
+    color: #ffffff;
+    border: none;
+    padding: 18px;              /* Bold scaled padding */
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 18px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 12px 26px rgba(139, 28, 179, 0.32); /* Premium soft purple neon shadow */
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, #a023bf, #6f119e);
+    box-shadow: 0 15px 32px rgba(139, 28, 179, 0.45);
+    transform: translateY(-1px);
+}
+
+.btn-submit:active {
+    transform: translateY(1px);
+    box-shadow: 0 6px 14px rgba(139, 28, 179, 0.25);
+}
+
+/* --- TempData Message Box --- */
+.msg {
+    margin-top: 5px;
+    padding: 14px 18px;
+    background-color: #f3e8ff;
+    color: #6b21a8;
+    border: 1px solid #e9d5ff;
+    border-radius: 14px;
+    font-size: 15px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* --- Footer Link (Underlined Like Image Reference) --- */
+.login-link {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 16px;
+    color: #1e293b;
+}
+
+.login-link a {
+    color: #581c87;
+    text-decoration: underline; /* Exact image underline display setup */
+    font-weight: 600;
+    margin-left: 4px;
+    transition: color 0.2s ease;
+}
+
+.login-link a:hover {
+    color: #3b0764;
+}
+
+/* --- Responsive Mobile View Adjustments --- */
+@@media (max-width: 768px) {
+    .register-container {
+        width: 92%;             /* Adapts seamlessly on smaller screens */
+        padding: 40px 25px;
+    }
+    .input-box input {
+        padding: 16px 20px 16px 55px;
+    }
+}
+  
+
+</style>

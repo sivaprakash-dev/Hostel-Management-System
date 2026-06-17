@@ -1,0 +1,188 @@
+﻿@model Student
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<div class="register-container">
+
+    <div class="register-card">
+
+        <h2>Student Registration</h2>
+
+        <form asp-action="StudentRegister"
+              asp-controller="Home"
+              method="post"
+              enctype="multipart/form-data">
+
+            <div class="input-box">
+                <i class="fa-solid fa-user"></i>
+                <input asp-for="Name"
+                       placeholder="Enter Name" />
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-envelope"></i>
+                <input asp-for="Email"
+                       placeholder="Enter Email" />
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-venus-mars"></i>
+                <input asp-for="Gender"
+                       placeholder="Gender" />
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-calendar"></i>
+                <input asp-for="Age"
+                       placeholder="Age" />
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-phone"></i>
+                <input asp-for="Mobile"
+                       placeholder="Mobile Number" />
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-location-dot"></i>
+                <input asp-for="Address"
+                       placeholder="Address" />
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input asp-for="Password"
+                       type="password"
+                       placeholder="Password" />
+            </div>
+
+            <div class="input-box file-box">
+                <i class="fa-solid fa-image"></i>
+                <input type="file"
+                       name="PhotoFile" />
+            </div>
+
+            <input type="hidden"
+                   asp-for="Role"
+                   value="Student" />
+
+            @if (TempData["msg"] != null)
+            {
+                <p class="message">@TempData["msg"]</p>
+            }
+            <button type="submit"
+                    class="btn-register">
+                Register Now
+            </button>
+
+        </form>
+
+        <!-- LOGIN LINK -->
+        <br />
+        <div class="login-link">
+            Already have an account?
+            <a asp-controller="Account" asp-action="Login">Login now</a>
+        </div>
+    </div>
+
+
+
+</div>
+
+<style>
+    .login-link{
+        margin-left: 90px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI',sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg,#0f172a,#1e293b);
+    }
+
+    .register-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .register-card {
+        width: 500px;
+        background: #fff;
+        padding: 40px;
+        border-radius: 30px;
+        box-shadow: 0 20px 40px rgba(0,0,0,.25);
+    }
+
+        .register-card h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1e293b;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+    .input-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f3f4f6;
+        border-radius: 16px;
+        padding: 15px 18px;
+        margin-bottom: 18px;
+    }
+
+        .input-box i {
+            color: #6b7280;
+            font-size: 18px;
+        }
+
+        .input-box input {
+            border: none;
+            outline: none;
+            background: none;
+            width: 100%;
+            font-size: 16px;
+        }
+
+    .file-box {
+        padding: 12px 18px;
+    }
+
+    .btn-register {
+        width: 100%;
+        border: none;
+        padding: 16px;
+        border-radius: 50px;
+        font-size: 18px;
+        font-weight: 700;
+        color: white;
+        cursor: pointer;
+        background: linear-gradient(135deg,#6366f1,#a855f7);
+        margin-top: 10px;
+        transition: .3s;
+    }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+        }
+
+    .message {
+        text-align: center;
+        margin-top: 15px;
+        color: green;
+        font-weight: 600;
+    }
+
+</style>

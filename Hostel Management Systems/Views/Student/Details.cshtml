@@ -1,0 +1,921 @@
+﻿@model Student
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+    /* ===================================================
+               1. பொதுவான அமைப்புகள் (GLOBAL CONFIGURATION)
+               =================================================== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: #f8fafc;
+        color: #1e293b;
+        overflow-x: hidden;
+    }
+
+    .main-container {
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    /* ===================================================
+               2. சைட்பார் வடிவமைப்பு (SIDEBAR - Stomp Effect Included)
+               =================================================== */
+    .sidebar {
+        width: 260px;
+        background-color: #0f0a1c;
+        color: #a5a2ba;
+        display: flex;
+        flex-direction: column;
+        padding: 24px 16px;
+        flex-shrink: 0;
+    }
+
+    .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar .logo {
+        background: linear-gradient(135deg, #b034cc, #6a11cb);
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 18px;
+    }
+
+    .logo-text h3 {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .logo-text p {
+        font-size: 11px;
+        color: #5c5776;
+    }
+
+    .menu-title {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        color: #433e58;
+        margin: 10px 0 12px 12px;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+        .sidebar ul li a {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 16px;
+            color: #8a85a5;
+            text-decoration: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            /*
+                   STOMP EFFECT BASE:
+                   cubic-bezier அனிமேஷன் மூலம் ஒரு ஸ்பிரிங் அல்லது ஸ்டம்ப் போன்ற எஃபெக்ட் கிடைக்கும்
+                */
+            transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1.4), background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+        }
+
+            /* HOVER STOMP: மவுஸை வைக்கும் போது லேசாகப் பெரிதாகும் */
+            .sidebar ul li a:hover {
+                color: #fff;
+                background-color: rgba(255, 255, 255, 0.04);
+                transform: scale(1.03); /* லேசான விரிவாக்கம் */
+            }
+
+            /* CLICK/ACTIVE STOMP (The True Stomp Effect):
+               மெனுவைக் கிளிக் செய்யும் போது (Mousedown / Active) உள்ளே அழுந்திப் பதியும் ஸ்பிரிங் போன்ற எஃபெக்ட் */
+            .sidebar ul li a:active {
+                transform: scale(0.92) translateY(2px); /* மெனு கார்டு உள்ளே அமுங்கித் திரும்பும் */
+                box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.5);
+            }
+
+        /* ஆக்டிவ் மெனுவிற்கான லீனியர் கிரேடியன்ட் */
+        .sidebar ul li.active-menu a {
+            background: linear-gradient(90deg, #b83cd1, #8418a8) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 20px rgba(184, 60, 209, 0.4);
+            font-weight: 600;
+        }
+
+            /* ஆக்டிவ் மெனுவின் வலதுபுற சிறிய புள்ளி */
+            .sidebar ul li.active-menu a::after {
+                content: '';
+                position: absolute;
+                right: 18px;
+                width: 6px;
+                height: 6px;
+                background-color: #fff;
+                border-radius: 50%;
+            }
+
+    /* ===================================================
+               3. மின்னஞ்சல் பாக்ஸ் & சிவப்பு நிற லாக்அவுட் (BOTTOM FOOTER)
+               =================================================== */
+    .sidebar-footer {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding-top: 20px;
+    }
+
+    .user-profile-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        background-color: #17112a;
+        border-radius: 16px;
+    }
+
+    .profile-avatar {
+        background: linear-gradient(135deg, #bf55ec, #8e44ad);
+        color: #fff;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .profile-info h4 {
+        color: #fff;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .profile-info p {
+        font-size: 11px;
+        color: #6a6485;
+    }
+
+    .logout-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        color: #ff4d4d !important;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1.4), opacity 0.2s;
+    }
+
+        .logout-link:hover {
+            opacity: 0.9;
+            transform: scale(1.03);
+        }
+
+        .logout-link:active {
+            transform: scale(0.92) translateY(2px);
+        }
+
+    /* ===================================================
+               4. டாப் பார் வடிவமைப்பு (TOPBAR)
+               =================================================== */
+    .content {
+        flex-grow: 1;
+        padding: 24px 32px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        padding: 16px 24px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
+        margin-bottom: 24px;
+    }
+
+    .topbar-left h2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .notification-icon {
+        font-size: 18px;
+        color: #64748b;
+        cursor: pointer;
+    }
+
+    .top-useremail {
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    .avatar-sm {
+        background: #a855f7;
+        color: #fff;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    /* ===================================================
+               5. கன்டென்ட் டைட்டில் மற்றும் டேபிள் வடிவமைப்பு
+               =================================================== */
+    .top-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .page-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .add-btn {
+        background-color: #7c3aed;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        transition: transform 0.1s ease, background-color 0.2s;
+    }
+
+        .add-btn:hover {
+            background-color: #6d28d9;
+        }
+
+        .add-btn:active {
+            transform: scale(0.95);
+        }
+
+    .table-container {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f8fafc;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 16px;
+        border-bottom: 1px solid #edf2f7;
+    }
+
+    td {
+        padding: 16px;
+        font-size: 13.5px;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    tr:hover td {
+        background-color: #f8fafc;
+    }
+
+    .details-btn, .edit-btn, .delete-btn {
+        padding: 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: transform 0.1s ease;
+    }
+
+    .details-btn {
+        background-color: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    .edit-btn {
+        background-color: #fef3c7;
+        color: #d97706;
+    }
+
+    .delete-btn {
+        background-color: #fee2e2;
+        color: #dc2626;
+    }
+
+    .details-btn:hover {
+        background-color: #dbeafe;
+    }
+
+    .edit-btn:hover {
+        background-color: #fde68a;
+    }
+
+    .delete-btn:hover {
+        background-color: #fecaca;
+    }
+
+    .details-btn:active, .edit-btn:active, .delete-btn:active {
+        transform: scale(0.95);
+    }
+
+
+
+    /* ===================================================
+           6. மாணவர் சேர்க்கை படிவ வடிவமைப்பு (ADD STUDENT FORM)
+           =================================================== */
+
+    /* படிவத்தின் முதன்மை கொள்கலன் (Form Container) */
+    .form-container {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+        max-width: 700px; /* படிவம் பார்ப்பதற்கு நேர்த்தியாக இருக்க */
+        margin: 0 auto; /* மையப்படுத்துவதற்கு */
+    }
+
+    /* படிவக் குழு (Form Group - Label & Input Row) */
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 24px;
+    }
+
+        /* லேபிள்கள் (Labels with Icons) */
+        .form-group label {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #475569; /* Slate grey color */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .form-group label i {
+                color: #8418a8; /* பிரீமியம் பர்பிள் ஐகான் */
+                font-size: 14px;
+                width: 16px;
+            }
+
+        /* உள்ளீட்டு பெட்டிகள் (Inputs & Textarea) */
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #1e293b;
+            background-color: #f8fafc;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        /* வரம்பற்ற முகவரிப் பெட்டி அளவு மாறாமல் தடுக்க */
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+            /* உள்ளீட்டு பெட்டிகளின் Hover & Focus எஃபெக்ட் */
+            .form-group input:hover,
+            .form-group textarea:hover {
+                border-color: #cbd5e1;
+            }
+
+            .form-group input:focus,
+            .form-group textarea:focus {
+                background-color: #fff;
+                border-color: #b83cd1;
+                box-shadow: 0 0 0 4px rgba(184, 60, 209, 0.1);
+            }
+
+    /* பட்டன் பகுதி (Button Section) */
+    .btn-section {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 32px;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 24px;
+    }
+
+    /* சேமிப்பு பொத்தான் (Save Button) */
+    .save-btn {
+        background: linear-gradient(90deg, #b83cd1, #8418a8);
+        color: #ffffff;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 15px rgba(184, 60, 209, 0.3);
+        /* STOMP EFFECT BASE */
+        transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1.4), box-shadow 0.2s ease;
+    }
+
+        .save-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(184, 60, 209, 0.4);
+        }
+
+        /* SAVE BUTTON STOMP */
+        .save-btn:active {
+            transform: scale(0.94) translateY(2px);
+            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+    /* பின்செல்லும் பொத்தான் (Back Button) */
+    .back-btn {
+        background-color: #f1f5f9;
+        color: #475569;
+        text-decoration: none;
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        /* STOMP EFFECT BASE */
+        transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1.4), background-color 0.2s ease;
+    }
+
+        .back-btn:hover {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            transform: scale(1.03);
+        }
+
+        /* BACK BUTTON STOMP */
+        .back-btn:active {
+            transform: scale(0.94) translateY(2px);
+        }
+
+    /* படிவத்தின் மேல் பகுதி ஐகான் வடிவமைப்பு (Form Topbar Icon Adjustment) */
+    .content .topbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+        .content .topbar i {
+            color: #b83cd1;
+            font-size: 20px;
+        }
+
+
+
+    /* ===================================================
+       7. மாணவர் விவரங்கள் வடிவமைப்பு (STUDENT DETAILS CARD)
+       =================================================== */
+
+    /* முதன்மை விவரங்கள் கார்டு (Main Details Card) */
+    .details-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+        max-width: 850px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* விவரங்களை இரண்டு வரிசையாக பிரிக்கிறது */
+        gap: 24px;
+        position: relative;
+    }
+
+    /* ஒவ்வொரு விவரப் பெட்டி (Individual Info Item) */
+    .details-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 20px;
+        background-color: #f8fafc; /* லேசான சாம்பல் நிற பின்னணி */
+        border: 1px solid #f1f5f9;
+        border-radius: 14px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        /* மவுஸை விவரங்கள் மீது வைக்கும் போது நடக்கும் மாற்றம் */
+        .details-item:hover {
+            transform: translateY(-2px);
+            background-color: #ffffff;
+            border-color: #e2e8f0;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        /* விவரங்கள் பக்கத்தில் உள்ள ஐகான்கள் */
+        .details-item i {
+            font-size: 20px;
+            color: #8418a8; /* பிரீமியம் பர்பிள் */
+            background: rgba(184, 60, 209, 0.08);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+    /* உரைகளின் வடிவமைப்பு (Text Styling) */
+    .details-text h3 {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #64748b; /* Slate grey */
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+
+    .details-text p {
+        font-size: 15px;
+        color: #0f172a; /* அடர் கருப்பு நிறம் */
+        font-weight: 500;
+        word-break: break-word; /* நீளமான மின்னஞ்சல்/முகவரி உடைந்து வர */
+    }
+
+    /* முகவரி (Address Section) முழு அகலத்திற்கும் மாற (Full Width for Address) */
+    .details-item:nth-last-of-type(1) {
+        grid-column: span 2; /* முகவரி மட்டும் முழு நீளத்திற்குத் தெரியும் */
+    }
+
+    /* பின்செல்லும் பொத்தான் பகுதி (Back Button Section) */
+    .details-card .back-btn {
+        grid-column: span 2; /* பட்டன் கார்டின் கீழே முழு அகலத்தில் வர */
+        justify-self: start; /* இடது பக்கமாக சீரமைக்க */
+        margin-top: 16px;
+        background-color: #f1f5f9;
+        color: #475569;
+        text-decoration: none;
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        /* STOMP EFFECT BASE */
+        transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1.4), background-color 0.2s ease, color 0.2s ease;
+    }
+
+        /* BACK BUTTON HOVER */
+        .details-card .back-btn:hover {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            transform: scale(1.03);
+        }
+
+        /* BACK BUTTON STOMP (Click Effect) */
+        .details-card .back-btn:active {
+            transform: scale(0.94) translateY(2px);
+        }
+
+    /* ரெஸ்பான்சிவ் வடிவமைப்பு (Mobile Friendly) */
+    @@media (max-width: 768px) {
+        .details-card {
+            grid-template-columns: 1fr; /* மொபைலில் ஒரு வரிசையாக மாறும் */
+        }
+
+        .details-item:nth-last-of-type(1) {
+            grid-column: span 1;
+        }
+
+        .details-card .back-btn {
+            grid-column: span 1;
+            width: 100%; /* மொபைலில் பட்டன் முழு அகலம் பெறும் */
+            justify-content: center;
+        }
+    }
+    /* Google Font - தூய்மையான மற்றும் நேர்த்தியான லுக் தர */
+    @@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+    .profile-section {
+        display: flex;
+        align-items: center;
+        gap: 16px; /* ஐகானுக்கும் உரைக்கும் இடையே உள்ள இடைவெளி */
+        padding: 16px;
+        background: rgba(255, 255, 255, 0.03); /* லேசான பின்னணி வண்ணம் */
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.06); /* Glassmorphic பார்டர் */
+        margin-bottom: 24px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* மவுஸ் மேலே செல்லும்போது லேசான பளபளப்பு அனிமேஷன் */
+    .profile-section:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(139, 92, 246, 0.3); /* Purple Glow */
+        transform: translateY(-2px);
+    }
+
+    /* 1. Profile User Icon */
+    .profile-icon {
+        font-size: 45px;
+        background: linear-gradient(135deg, #a855f7, #6366f1); /* இமேஜில் உள்ள நியான்றிக் பர்பிள் கிரேடியன்ட் */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.3));
+        transition: transform 0.3s ease;
+    }
+
+    .profile-section:hover .profile-icon {
+        transform: scale(1.08) rotate(5deg);
+    }
+
+    /* 2. Email & Role Container */
+    .profile-section .email {
+        display: flex;
+        flex-direction: column;
+        gap: 4px; /* வரிகளுக்கு இடையே உள்ள இடைவெளி */
+        overflow: hidden;
+    }
+
+        /* 3. Email Text Style */
+        .profile-section .email h3:nth-child(1) {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff; /* தூய வெள்ளை நிறம் */
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* நீண்ட மெயில் ஐடியாக இருந்தால் '...' என சுருங்கும் */
+        }
+
+        /* 4. Role (ADMIN / STUDENT) Badge Style */
+        .profile-section .email h3:nth-child(2) {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase; /* எழுத்துக்களை Capitalize செய்ய */
+            letter-spacing: 1px;
+            /* Neon Badge Effect (இமேஜில் உள்ளது போன்ற வடிவமைப்பு) */
+            background: linear-gradient(90deg, #8b5cf6, #d946ef);
+            color: #ffffff;
+            padding: 3px 10px;
+            border-radius: 20px;
+            width: max-content; /* உரைக்கு ஏற்றவாறு மட்டும் பேட்ஜ் சுருங்கும் */
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4);
+        }
+ </style>
+
+<div class="main-container">
+
+    <div class="sidebar">
+        <div class="profile-section">
+
+            <i class="fa-solid fa-circle-user profile-icon"></i>
+
+            <div class="email">
+                <h3>@Context.Session.GetString("Email")</h3>
+                <h3>@Context.Session.GetString("Role")</h3>
+            </div>
+        </div>
+
+        <p class="menu-title">MENU</p>
+        <ul>
+            <li>
+                <a asp-controller="Dashboard" asp-action="Index">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="menu-text">Dashboard</span>
+                </a>
+            </li>
+            <li class="active-menu">
+                <a asp-controller="Student" asp-action="Indexs">
+                    <i class="fa-solid fa-users"></i>
+                    <span class="menu-text">Students</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Room" asp-action="RoomIndex">
+                    <i class="fa-solid fa-bed"></i>
+                    <span class="menu-text">Rooms</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="RoomAllocation" asp-action="Indes">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span class="menu-text">Rooms Allocation</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Fees" asp-action="feesIndex">
+                    <i class="fa-solid fa-money-bill"></i>
+                    <span class="menu-text">Fees</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Complaint" asp-action="CompIndex">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span class="menu-text">Complaints</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="menu-text">Settings</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-profile-box">
+                <div class="profile-avatar">
+                    @{
+                        var email = Context.Session.GetString("Email");
+
+                        var initials = "AJ";
+
+                        if (!string.IsNullOrEmpty(email))
+                        {
+                            initials = email.Substring(0, 2).ToUpper();
+                        }
+                    }
+
+                    @initials
+                </div>
+
+                <div class="profile-info">
+                    <h4>Admin</h4>
+                    <p>@Context.Session.GetString("Email")</p>
+                </div>
+            </div>
+
+            <a asp-controller="Account" asp-action="Logout" class="logout-link">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="menu-text">Logout</span>
+            </a>
+        </div>
+    </div>
+
+
+
+    <div class="content">
+
+        <div class="topbar">
+
+            <i class="fa-solid fa-id-card"></i>
+
+            Student Details
+
+        </div>
+
+        <div class="details-card">
+
+            <div class="details-item">
+
+                <i class="fa-solid fa-hashtag"></i>
+
+                <div class="details-text">
+                    <h3>Student Id</h3>
+                    <p>@Model.StudentId</p>
+                </div>
+
+            </div>
+
+            <div class="details-item">
+
+                <i class="fa-solid fa-user"></i>
+
+                <div class="details-text">
+                    <h3>Name</h3>
+                    <p>@Model.Name</p>
+                </div>
+
+            </div>
+
+            <div class="details-item">
+
+                <i class="fa-solid fa-venus-mars"></i>
+
+                <div class="details-text">
+                    <h3>Gender</h3>
+                    <p>@Model.Gender</p>
+                </div>
+
+            </div>
+
+            <div class="details-item">
+
+                <i class="fa-solid fa-calendar"></i>
+
+                <div class="details-text">
+                    <h3>Age</h3>
+                    <p>@Model.Age</p>
+                </div>
+
+            </div>
+
+            <div class="details-item">
+
+                <i class="fa-solid fa-phone"></i>
+
+                <div class="details-text">
+                    <h3>Mobile</h3>
+                    <p>@Model.Mobile</p>
+                </div>
+
+            </div>
+
+            <div class="details-item">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <div class="details-text">
+                    <h3>Email</h3>
+                    <p>@Model.Email</p>
+                </div>
+
+            </div>
+
+            <div class="details-item">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <div class="details-text">
+                    <h3>Address</h3>
+                    <p>@Model.Address</p>
+                </div>
+
+            </div>
+
+            <a asp-action="Indexs"
+               class="back-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back To List
+
+            </a>
+
+        </div>
+
+    </div>
+
+   
+    
+    </div>
+</div>

@@ -1,0 +1,539 @@
+﻿@model AdminLogin
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<div class="main-container">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+
+        <div class="logo-box">
+            <i class="fa-solid fa-building"></i>
+        </div>
+
+        <h1>
+            SIVA <br />
+            <span>Hostel</span>
+        </h1>
+
+        <p>
+            Modern hostel management system for students,
+            rooms, fees and complaints.
+        </p>
+
+        <div class="stats">
+            <div class="stat-box">
+                <h2>100+</h2>
+                <span>Students</span>
+            </div>
+
+            <div class="stat-box">
+                <h2>120</h2>
+                <span>Rooms</span>
+            </div>
+
+            <div class="stat-box">
+                <h2>24/7</h2>
+                <span>Support</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="login-container">
+
+        <h2>Welcome Back  </h2>
+
+        <form asp-action="Login"
+              asp-controller="Account"
+              method="post">
+
+            <!-- Role Selection -->
+
+            <div class="role-selector">
+
+                <div class="role-card active"
+                     onclick="selectRole('Admin', this)">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>Admin</span>
+                </div>
+
+                <div class="role-card"
+                     onclick="selectRole('Student', this)">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <span>Student</span>
+                </div>
+
+            </div>
+
+            <input asp-for="Role"
+                   type="hidden"
+                   id="Role"
+                   value="Admin" />
+
+            <!-- Email -->
+
+            <div class="input-box">
+                <i class="fa-solid fa-envelope"></i>
+
+                <input asp-for="Email"
+                       type="email"
+                       placeholder="Enter Email"
+                       required />
+            </div>
+
+            <!-- Password -->
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+
+                <input asp-for="Password"
+                       type="password"
+                       placeholder="Enter Password"
+                       required />
+            </div>
+
+            <h4 style="color:red">
+                @ViewBag.Message
+            </h4>
+
+            <input type="submit"
+                   value="Login Now"
+                   class="btn-login" />
+
+            <br />
+            <br />
+            <br />
+
+            <div class="register-link">
+                <label>Don't have an account? </label>
+
+                <a href="javascript:void(0)"
+                   onclick="goToRegister()">
+                    Register now
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+<script>
+
+    function selectRole(role, element) {
+
+        document.getElementById("Role").value = role;
+
+        document.querySelectorAll(".role-card")
+            .forEach(card => {
+                card.classList.remove("active");
+            });
+
+        element.classList.add("active");
+    }
+
+    function goToRegister() {
+
+        var role =
+            document.getElementById("Role").value;
+
+        if (role === "Admin") {
+
+            window.location.href =
+                '/Home/AdminRegister';
+        }
+        else {
+
+            window.location.href =
+                '/Home/StudentRegister';
+        }
+    }
+
+</script>
+
+<style>
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg,#0f172a,#1e293b);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .main-container {
+        width: 95%;
+        max-width: 1200px;
+        display: flex;
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0,0,0,.25);
+    }
+
+    /* LEFT SIDE */
+
+    .left-panel {
+        flex: 1;
+        background: linear-gradient(135deg,#4f46e5,#7c3aed);
+        color: white;
+        padding: 50px;
+    }
+
+    .logo-box {
+        width: 80px;
+        height: 80px;
+        background: white;
+        color: #7c3aed;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 35px;
+        margin-bottom: 30px;
+    }
+
+    .left-panel h1 {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+
+    .left-panel p {
+        color: rgba(255,255,255,.9);
+        line-height: 1.8;
+    }
+
+    .stats {
+        display: flex;
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .stat-box h2 {
+        color: #fbbf24;
+        margin-bottom: 5px;
+    }
+
+    /* RIGHT SIDE */
+
+    .login-container {
+        flex: 1;
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .login-container h2 {
+            font-size: 36px;
+            color: #111827;
+            margin-bottom: 30px;
+        }
+
+    /* ROLE BUTTONS */
+
+    .role-selector {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .role-card {
+        flex: 1;
+        text-align: center;
+        padding: 15px;
+        border-radius: 15px;
+        background: #f3f4f6;
+        border: 2px solid #e5e7eb;
+        cursor: pointer;
+        transition: .3s;
+    }
+
+        .role-card.active {
+            background: #7c3aed;
+            color: white;
+            border-color: #7c3aed;
+        }
+
+    /* INPUT */
+
+    .input-box {
+        display: flex;
+        align-items: center;
+        background: #f3f4f6;
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+        .input-box i {
+            color: #6b7280;
+            margin-right: 10px;
+        }
+
+        .input-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+            background: transparent;
+        }
+
+    /* BUTTON */
+
+    .btn-login {
+        width: 100%;
+        border: none;
+        padding: 15px;
+        border-radius: 50px;
+        background: linear-gradient(135deg,#6366f1,#8b5cf6);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+        }
+
+    /* REGISTER */
+
+    .register-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .register-link a {
+            color: #7c3aed;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+    /* MOBILE */
+
+    @@media(max-width:768px) {
+
+        .main-container {
+            flex-direction: column;
+        }
+
+        .left-panel {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .stats {
+            justify-content: center;
+        }
+
+        .login-container {
+            padding: 30px;
+        }
+
+        .role-selector {
+            flex-direction: column;
+        }
+    }
+
+    .main-container {
+        display: flex;
+        width: min(1400px, 95%);
+        min-height: 650px;
+        margin: auto;
+        border-radius: 40px;
+        overflow: hidden;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+        background: #fff;
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .register-link a {
+            color: #6c63ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+            .register-link a:hover {
+                text-decoration: underline;
+            }
+
+    /* ===================================
+       RESPONSIVE DESIGN
+    =================================== */
+
+    /* Large Screens */
+    @@media (min-width:1400px) {
+
+        .main-container {
+            width: 1400px;
+            min-height: 750px;
+        }
+
+        .left-panel h1 {
+            font-size: 4rem;
+        }
+
+        .login-container {
+            padding: 80px;
+        }
+    }
+
+    /* Laptop */
+    @@media (max-width:1200px) {
+
+        .main-container {
+            width: 95%;
+        }
+    }
+
+    /* Tablet */
+    @@media (max-width:992px) {
+
+        .main-container {
+            flex-direction: column;
+            width: 100%;
+            min-height: auto;
+        }
+
+        .left-panel {
+            text-align: center;
+            align-items: center;
+            padding: 50px 30px;
+        }
+
+            .left-panel p {
+                max-width: 100%;
+            }
+
+        .stats {
+            justify-content: center;
+        }
+
+        .login-container {
+            padding: 40px 30px;
+        }
+    }
+
+    /* Mobile */
+    @@media (max-width:768px) {
+
+        body {
+            padding: 10px;
+        }
+
+        .main-container {
+            width: 100%;
+            border-radius: 25px;
+        }
+
+        .left-panel {
+            padding: 35px 20px;
+        }
+
+            .left-panel h1 {
+                font-size: 2rem;
+            }
+
+                .left-panel h1 span {
+                    font-size: 2.4rem;
+                }
+
+        .login-container {
+            padding: 30px 20px;
+        }
+
+            .login-container h2 {
+                text-align: center;
+                font-size: 1.7rem;
+            }
+
+        .role-selector {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .role-card {
+            width: 100%;
+        }
+
+        .stats {
+            gap: 20px;
+        }
+
+        .stat-box h2 {
+            font-size: 1.5rem;
+        }
+    }
+
+    /* Small Mobile */
+    @@media (max-width:480px) {
+
+        .left-panel h1 {
+            font-size: 1.6rem;
+        }
+
+            .left-panel h1 span {
+                font-size: 2rem;
+            }
+
+        .left-panel p {
+            font-size: 14px;
+        }
+
+        .role-card {
+            padding: 14px;
+            font-size: 14px;
+        }
+
+            .role-card i {
+                font-size: 18px;
+            }
+
+        .input-box {
+            padding: 12px 15px;
+        }
+
+            .input-box input {
+                font-size: 14px;
+            }
+
+        .btn-login {
+            padding: 14px;
+            font-size: 15px;
+        }
+    }
+
+    /* Very Small Mobile */
+    @@media (max-width:360px) {
+
+        .left-panel {
+            padding: 25px 15px;
+        }
+
+        .login-container {
+            padding: 25px 15px;
+        }
+
+        .left-panel h1 {
+            font-size: 1.4rem;
+        }
+
+            .left-panel h1 span {
+                font-size: 1.8rem;
+            }
+
+        .btn-login {
+            font-size: 14px;
+        }
+    }
+
+</style>

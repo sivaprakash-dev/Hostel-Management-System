@@ -1,0 +1,87 @@
+﻿@model Student
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<div class="profile-card">
+
+    <div class="profile-header">
+        <i class="fa-solid fa-circle-user"></i>
+
+        <h2>@Model.Name</h2>
+
+        <p>@Model.Email</p>
+    </div>
+
+    <div class="profile-body">
+
+        <div class="row">
+            <strong>Student Id :</strong>
+            @Model.StudentId
+        </div>
+
+        <div class="row">
+            <strong>Gender :</strong>
+            @Model.Gender
+        </div>
+
+        <div class="row">
+            <strong>Age :</strong>
+            @Model.Age
+        </div>
+
+        <div class="row">
+            <strong>Mobile :</strong>
+            @Model.Mobile
+        </div>
+
+        <div class="row">
+            <strong>Address :</strong>
+            @Model.Address
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Poppins;
+    }
+
+    .profile-card {
+        width: 600px;
+        margin: 40px auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,.15);
+        overflow: hidden;
+    }
+
+    .profile-header {
+        background: #2563eb;
+        color: white;
+        text-align: center;
+        padding: 30px;
+    }
+
+        .profile-header i {
+            font-size: 90px;
+            margin-bottom: 10px;
+        }
+
+    .profile-body {
+        padding: 25px;
+    }
+
+    .row {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        font-size: 17px;
+    }
+
+        .row strong {
+            color: #2563eb;
+        }
+</style>
