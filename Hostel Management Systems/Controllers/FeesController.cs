@@ -33,10 +33,6 @@ namespace Hostel_MVC.Controllers
             }
         }
 
-        // ==========================
-        // FEES LIST
-        // ==========================
-
         public async Task<IActionResult> FeesIndex()
         {
             AddToken();
@@ -61,20 +57,13 @@ namespace Hostel_MVC.Controllers
             return View();
         }
 
-        // ==========================
-        // CREATE PAGE
-        // ==========================
-
         [HttpGet]
         public IActionResult FeesCreate()
         {
             return View();
         }
 
-        // ==========================
-        // CREATE
-        // ==========================
-
+ 
         [HttpPost]
         public async Task<IActionResult> FeesCreate(
             Fees vm)
@@ -123,9 +112,6 @@ namespace Hostel_MVC.Controllers
             return RedirectToAction("Index");
         }
 
-        // ==========================
-        // DELETE
-        // ==========================
 
         [HttpGet]
         public async Task<IActionResult> Delete(
