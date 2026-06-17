@@ -18,10 +18,6 @@ namespace Hostel_Management_System.Controllers
             _context = context;
         }
 
-        // =========================================
-        // GET ALL ALLOCATIONS
-        // =========================================
-
         [Authorize(Roles = "Admin")]
 
         [HttpGet]
@@ -33,18 +29,12 @@ namespace Hostel_Management_System.Controllers
             return Ok(data);
         }
 
-        // =========================================
-        // ALLOCATE ROOM
-        // =========================================
-
         [Authorize(Roles = "Admin")]
 
         [HttpPost]
         public async Task<IActionResult> AllocateRoom(
             RoomAllocation allocation)
         {
-            // STUDENT CHECK
-
             var student = await _context.Students
                 .FindAsync(allocation.StudentId);
 
@@ -52,8 +42,6 @@ namespace Hostel_Management_System.Controllers
             {
                 return NotFound("Student Not Found");
             }
-
-            // ROOM CHECK
 
             var room = await _context.Rooms
                 .FindAsync(allocation.RoomId);
@@ -63,14 +51,10 @@ namespace Hostel_Management_System.Controllers
                 return NotFound("Room Not Found");
             }
 
-            // ROOM FULL CHECK
-
             if (room.OccupiedBeds >= room.Capacity)
             {
                 return BadRequest("Room Full");
             }
-
-            // ALLOCATION
 
             allocation.AllocationDate = DateTime.Now;
 
@@ -78,12 +62,7 @@ namespace Hostel_Management_System.Controllers
 
             _context.RoomAllocations.Add(allocation);
 
-            // UPDATE OCCUPIED BEDS
-
             room.OccupiedBeds++;
-
-            // UPDATE ROOM STATUS
-
             if (room.OccupiedBeds == room.Capacity)
             {
                 room.Status = "Full";
@@ -93,10 +72,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok("Room Allocated Successfully");
         }
-
-        // =========================================
-        // REMOVE ALLOCATION
-        // =========================================
 
         [Authorize(Roles = "Admin")]
 
