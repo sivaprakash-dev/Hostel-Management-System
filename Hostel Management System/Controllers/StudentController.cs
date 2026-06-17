@@ -18,10 +18,6 @@ namespace Hostel_Management_System.Controllers
             _context = context;
         }
 
-        // =========================================
-        // GET ALL STUDENTS
-        // ADMIN ONLY
-        // =========================================
 
         [Authorize(Roles = "Admin")]
 
@@ -31,11 +27,6 @@ namespace Hostel_Management_System.Controllers
             var data = await _context.Students.ToListAsync();
             return Ok(data);
         }
-
-        // =========================================
-        // GET STUDENT BY ID
-        // ADMIN + STUDENT
-        // =========================================
 
         [Authorize(Roles = "Admin,Student")]
 
@@ -53,11 +44,6 @@ namespace Hostel_Management_System.Controllers
             return Ok(data);
         }
 
-        // =========================================
-        // ADD STUDENT
-        // ADMIN ONLY
-        // =========================================
-
         [Authorize(Roles = "Admin")]
 
         [HttpPost]
@@ -71,11 +57,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok("Student Added Successfully");
         }
-
-        // =========================================
-        // UPDATE STUDENT
-        // ADMIN ONLY
-        // =========================================
 
         [Authorize(Roles = "Admin")]
 
@@ -111,10 +92,6 @@ namespace Hostel_Management_System.Controllers
             return Ok("Student Updated Successfully");
         }
 
-        // =========================================
-        // DELETE STUDENT
-        // ADMIN ONLY
-        // =========================================
 
         [Authorize(Roles = "Admin")]
 
@@ -136,9 +113,6 @@ namespace Hostel_Management_System.Controllers
             return Ok("Student Deleted Successfully");
         }
 
-
-        ////// Student Role----------------------
-        ///
 
         [Authorize(Roles = "Student")]
         [HttpGet("my-profile")]
