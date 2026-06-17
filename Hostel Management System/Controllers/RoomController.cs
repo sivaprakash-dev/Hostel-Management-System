@@ -18,10 +18,6 @@ namespace Hostel_Management_System.Controllers
             _context = context;
         }
 
-        // =========================================
-        // GET ALL ROOMS
-        // =========================================
-
         [HttpGet]
         public async Task<IActionResult> GetRooms()
         {
@@ -29,11 +25,7 @@ namespace Hostel_Management_System.Controllers
 
             return Ok(data);
         }
-
-        // =========================================
-        // GET ROOM BY ID
-        // =========================================
-
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRoomById(int id)
         {
@@ -46,12 +38,7 @@ namespace Hostel_Management_System.Controllers
 
             return Ok(data);
         }
-
-        // =========================================
-        // ADD ROOM
-        // ADMIN ONLY
-        // =========================================
-
+        
         [Authorize(Roles = "Admin")]
 
         [HttpPost]
@@ -66,10 +53,6 @@ namespace Hostel_Management_System.Controllers
             return Ok("Room Added Successfully");
         }
 
-        // =========================================
-        // UPDATE ROOM
-        // ADMIN ONLY
-        // =========================================
 
         [Authorize(Roles = "Admin")]
 
@@ -99,11 +82,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok("Room Updated Successfully");
         }
-
-        // =========================================
-        // DELETE ROOM
-        // ADMIN ONLY
-        // =========================================
 
         [Authorize(Roles = "Admin")]
 
