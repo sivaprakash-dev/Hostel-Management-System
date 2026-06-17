@@ -24,10 +24,6 @@ namespace Hostel_Management_System.Controllers
             _context = context;
             _configuration = configuration;
         }
-
-        // ADMIN REGISTER
-        // =========================================
-
         [HttpPost("admin-register")]
         public async Task<IActionResult> AdminRegister(AdminRegDto dto)
         {
@@ -68,11 +64,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok("Admin Registration Successful");
         }
-
-        // =========================================
-        // ADMIN LOGIN
-        // =========================================
-
         [HttpPost("admin-login")]
         public async Task<IActionResult> AdminLogin(
     AdminLoginDto dto)
@@ -119,11 +110,6 @@ namespace Hostel_Management_System.Controllers
                     .WriteToken(token)
             });
         }
-
-        // =========================================
-        // STUDENT REGISTER
-        // =========================================
-
         [HttpPost("student-register")]
         public async Task<IActionResult> StudentRegister(StudentRegDto dto)
         {
@@ -163,10 +149,6 @@ namespace Hostel_Management_System.Controllers
             return Ok("Student Registration Successful");
         }
 
-        // =========================================
-        // STUDENT LOGIN
-        // =========================================
-
         [HttpPost("student-login")]
         public async Task<IActionResult> StudentLogin(StudentLoginDto dto)
         {
@@ -180,7 +162,6 @@ namespace Hostel_Management_System.Controllers
                 return Unauthorized("Invalid Email or Password");
             }
 
-            // CLAIMS
 
             var claims = new[]
             {
@@ -192,19 +173,14 @@ namespace Hostel_Management_System.Controllers
                     student.StudentId.ToString())
             };
 
-            // KEY
 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(
                     _configuration["Jwt:Key"]!));
 
-            // SIGNING
-
             var creds = new SigningCredentials(
                 key,
                 SecurityAlgorithms.HmacSha256);
-
-            // TOKEN
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
@@ -216,8 +192,6 @@ namespace Hostel_Management_System.Controllers
                 expires: DateTime.Now.AddHours(2),
 
                 signingCredentials: creds);
-
-            // RETURN TOKEN
 
             return Ok(new
             {
@@ -234,10 +208,6 @@ namespace Hostel_Management_System.Controllers
             return Ok(data);
         }
 
-        // =========================================
-        // ADMIN + STUDENT
-        // =========================================
-
         [Authorize(Roles = "Admin,Student")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStudentById(int id)
@@ -252,10 +222,6 @@ namespace Hostel_Management_System.Controllers
 
             return Ok(data);
         }
-
-        // =========================================
-        // STUDENT ONLY
-        // =========================================
 
         [Authorize(Roles = "Student")]
         [HttpGet("dashboard")]
