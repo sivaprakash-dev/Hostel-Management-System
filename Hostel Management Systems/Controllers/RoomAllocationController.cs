@@ -21,10 +21,6 @@ namespace Hostel_MVC.Controllers
                 new Uri("https://localhost:7255/");
         }
 
-        // =====================================
-        // TOKEN
-        // =====================================
-
         private void AddToken()
         {
             var token = HttpContext.Session.GetString("token");
@@ -39,10 +35,6 @@ namespace Hostel_MVC.Controllers
                     "Bearer",
                     token);
         }
-
-        // =====================================
-        // ALLOCATION LIST
-        // =====================================
 
         public async Task<IActionResult> Indes()
         {
@@ -67,19 +59,11 @@ namespace Hostel_MVC.Controllers
             return View();
         }
 
-        // =====================================
-        // CREATE PAGE
-        // =====================================
-
         [HttpGet]
         public IActionResult RoomAllCreate()
         {
             return View();
         }
-
-        // =====================================
-        // CREATE
-        // =====================================
 
         [HttpPost]
         public async Task<IActionResult> RoomAllCreate(RoomAllocation vm)
@@ -105,7 +89,6 @@ namespace Hostel_MVC.Controllers
                 return RedirectToAction("Indes");
             }
 
-            // API Error Message
             var errorMessage =
                 await response.Content.ReadAsStringAsync();
 
